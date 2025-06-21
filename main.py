@@ -38,6 +38,7 @@ app.add_middleware(
         "http://localhost:4200",
         "https://app001-user-service.onrender.com",
         "https://aiassistly.com",
+        "https://remarkable-conkies-27cbe1.netlify.app",
     ],
     allow_credentials=True,
     allow_methods=["*"],
