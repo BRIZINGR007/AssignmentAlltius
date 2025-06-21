@@ -1,7 +1,9 @@
-from mongoengine import Document, StringField
+from typing import Any, Dict, List, TypedDict
 
 
-class ChatModel(Document):
-    chatId = StringField(required=True)
-    sessionId = StringField(required=True)
-    userId = StringField(REQUIRED=True)
+class ChatModelTH(TypedDict):
+    chatId: str
+    userId: str
+    user_question: str
+    reference: List[Dict[str, Any]]
+    ai_answer: str
