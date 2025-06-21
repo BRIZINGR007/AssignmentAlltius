@@ -34,7 +34,11 @@ app.add_middleware(
 app.add_middleware(ExceptionMiddleware)
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=[
+        "http://localhost:4200",
+        "https://app001-user-service.onrender.com",
+        "https://aiassistly.com",
+    ],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
