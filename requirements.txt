@@ -7,3 +7,4 @@ jwcrypto==1.5.1
 uvicorn==0.34.0
 sse-starlette==2.2.1
 model2vec==0.6.0
+FlashRank==0.2.0

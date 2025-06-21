@@ -13,3 +13,8 @@ router = APIRouter(
 @router.get("/")
 async def get_context(query: str = Query()):
     return ChatController().similar_documents(query=query)
+
+
+@router.post("/chat-with-ai")
+async def chat_with_ai(query: str = Query()):
+    return ChatController().chat_with_ai(query=query)

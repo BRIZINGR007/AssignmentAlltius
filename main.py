@@ -39,6 +39,7 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+app.add_middleware(ExceptionMiddleware)
 
 app.include_router(Chat.router)
 
