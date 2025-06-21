@@ -5,7 +5,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 from app.enums.MiscEnums import ServicePaths
 from app.middlewares.rest import ExceptionMiddleware, HeaderValidationMiddleware
-from app.routers import Chat
+from app.routers import Chat, User
 from lifespans import Lifespans, mongodb_lifespan
 
 app = FastAPI(
@@ -26,7 +26,7 @@ app.add_middleware(
     excluded_paths=frozenset(
         [
             f"{ServicePaths.CONTEXT_PATH.value}/healthcheck",
-            f"{ServicePaths.CONTEXT_PATH.value}/chat",
+            f"{ServicePaths.CONTEXT_PATH.value}/user/no-check/",
         ]
     ),
 )
@@ -39,9 +39,9 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
-app.add_middleware(ExceptionMiddleware)
 
 app.include_router(Chat.router)
+app.include_router(User.router)
 
 
 @app.get(ServicePaths.CONTEXT_PATH.value + "/healthcheck")
@@ -56,7 +56,7 @@ if __name__ == "__main__":
         "main:app",
         port=3090,
         host="0.0.0.0",
-        reload=False,
+        reload=True,
         workers=1,
         lifespan="on",
     )
