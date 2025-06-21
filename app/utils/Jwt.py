@@ -1,5 +1,4 @@
-from ast import Dict
-from typing import Any, cast
+from typing import Any, cast, Dict
 import jwt
 import datetime
 from decouple import config
@@ -7,6 +6,7 @@ from decouple import config
 from app.interfaces.JwtUtils import HeaderPayloadTH
 from fastapi.responses import JSONResponse
 
+from app.interfaces.User import UserModelTH
 from app.utils.excpetions import JwtValidationError
 
 SECRET_KEY = cast(str, config("SECRET_KEY"))
@@ -26,18 +26,19 @@ class JwtUtils:
 
     @classmethod
     def create_jwt_response(
-        cls, user: HeaderPayloadTH, message="Login successful", status_code=200
+        cls, user: UserModelTH, message="Login successful", status_code=200
     ) -> JSONResponse:
-        user["exp"] = datetime.datetime.now(datetime.timezone.utc) + datetime.timedelta(
-            days=7
-        )
-        token = cls.create_jwt_token(user)
+        payload: Dict[str, Any] = cast(dict, user)
+        payload["exp"] = datetime.datetime.now(
+            datetime.timezone.utc
+        ) + datetime.timedelta(days=7)
+        token = cls.create_jwt_token(payload)
         response = JSONResponse(
             status_code=201,
-            content={"token": token, "message": message},
+            content={"token": token, "name": user["name"], "message": message},
         )
         response.set_cookie(
-            key="jwt",
+            key="access_token",
             value=token,
             httponly=True,
             secure=True,

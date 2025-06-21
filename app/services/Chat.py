@@ -33,10 +33,7 @@ class ChatService(metaclass=SingletonMeta):
         self, query: str, ai_answer: str, refernce: List[dict]
     ) -> ChatModelTH:
         context = ContextUtils().get_headers_details()
-        if not context:
-            userId = ""
-        else:
-            userId = context.userId
+        userId = context.userId
         chat_payload = ChatModelTH(
             chatId=str(uuid.uuid4()),
             userId=userId,
@@ -49,7 +46,10 @@ class ChatService(metaclass=SingletonMeta):
     def chat_with_ai(self, query: str) -> ChatModelTH:
         similar_docs = self.embedding_service.do_similarity_search(query=query)
         if not similar_docs:
-            ai_answer = "I Don't know"
+            ai_answer = (
+                "I Don't know. I'm sorry, but I couldn't find any relevant information to answer your question "
+                "based on the available data. Please try rephrasing your query or provide more context."
+            )
             chat_payload = self.create_chat(
                 query=query, ai_answer=ai_answer, refernce=[]
             )
@@ -62,3 +62,12 @@ class ChatService(metaclass=SingletonMeta):
             )
         self.chatrepo.insert_one(chat_payload.copy())
         return chat_payload
+
+    def get_all_chats(self) -> List[ChatModelTH]:
+        context = ContextUtils.get_headers_details()
+        chats = self.chatrepo.get_all_chats(userId=context.userId)
+        return chats
+
+    def delete_chats(self) -> None:
+        context = ContextUtils.get_headers_details()
+        self.chatrepo.delete_all_chats(userId=context.userId)
