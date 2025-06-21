@@ -1,0 +1,9 @@
+mongoengine==0.29.1
+python-decouple==3.8
+fastapi==0.115.6
+pytz==2024.2
+PyJWT==2.8.0
+jwcrypto==1.5.1
+uvicorn==0.34.0
+sse-starlette==2.2.1
+model2vec==0.6.0

@@ -1,0 +1,16 @@
+efs-mount-point/
+.env
+.vscode
+.VSCodeCounter
+service.log
+test.ipynb
+__pycache__/
+
+typings/
+.mypy_cache/
+.venv
+.python-version
+test.ipynb
+git_token.txt
+python-service-util
+/data
